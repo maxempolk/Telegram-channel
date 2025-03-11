@@ -1,0 +1,3 @@
+const LikeButton = () => {
+  return <></>;
+};

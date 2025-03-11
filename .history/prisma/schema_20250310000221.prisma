@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  images    File[]   @relation("PostToFile") // Добавляем имя отношения
+  tags      String
+}
+
+model File {
+  id        Int      @id @default(autoincrement())
+  filename  String
+  mimeType  String
+  size      Int
+  content   Bytes?
+  createdAt DateTime @default(now())
+  postId    Int
+  post      Post     @relation("PostToFile", fields: [postId], references: [id], onDelete: Cascade)
+}
